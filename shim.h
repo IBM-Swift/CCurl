@@ -26,6 +26,12 @@ extern inline CURLcode curlHelperSetOptBool(CURL *curl, CURLoption option, int y
     return curl_easy_setopt(curl, option, yesNo == CURL_TRUE ? 1L : 0L);
 }
 
+// set options list - CURLOPT_HTTPHEADER, CURLOPT_HTTP200ALIASES, CURLOPT_QUOTE, CURLOPT_TELNETOPTIONS, CURLOPT_MAIL_RCPT, etc.
+extern inline CURLcode curlHelperSetOptList(CURL *curl, CURLoption option, struct curl_slist *list) {
+    return curl_easy_setopt(curl, option, list);
+}
+
+__attribute__((deprecated("curlHelperSetOptHeaders has been deprecated please use curlHelperSetOptList(curl, CURLOPT_HTTPHEADER, headers) instead")))
 extern inline CURLcode curlHelperSetOptHeaders(CURL *curl, struct curl_slist *headers) {
     return curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 }
@@ -34,7 +40,8 @@ extern inline CURLcode curlHelperSetOptInt(CURL *curl, CURLoption option, long d
     return curl_easy_setopt(curl, option, data);
 }
 
-extern inline CURLcode curlHelperSetOptString(CURL *curl, CURLoption option, char *data) {
+// const keyword is used so that Swift strings can be passed
+extern inline CURLcode curlHelperSetOptString(CURL *curl, CURLoption option, const char *data) {
     return curl_easy_setopt(curl, option, data);
 }
 
@@ -45,7 +52,6 @@ extern inline CURLcode curlHelperSetOptReadFunc(CURL *curl, void *userData, size
         rc = curl_easy_setopt(curl, CURLOPT_READFUNCTION, read_cb);
     }
     return rc;
-    
 }
 
 extern inline CURLcode curlHelperSetOptWriteFunc(CURL *curl, void *userData, size_t (*write_cb) (char *ptr, size_t size, size_t nmemb, void *userdata)) {
