@@ -18,6 +18,7 @@
 #define CurlHelpers_h
 
 #import <curl/curl.h>
+#import <string.h>
 
 #define CURL_TRUE  1
 #define CURL_FALSE 0
@@ -28,6 +29,17 @@ extern inline CURLcode curlHelperSetOptBool(CURL *curl, CURLoption option, int y
 
 extern inline CURLcode curlHelperSetOptHeaders(CURL *curl, struct curl_slist *headers) {
     return curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+}
+
+extern inline CURLcode curlHelperSetOptPostData(CURL *curl, char *post_data) {
+    CURLcode rc = curl_easy_setopt(curl, CURLOPT_POST, 1);
+    if  (rc == CURLE_OK)  {
+        rc = curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post_data);
+        if  (rc == CURLE_OK) {
+            rc = curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, strlen(post_data));
+        }
+    }
+    return rc;
 }
 
 extern inline CURLcode curlHelperSetOptInt(CURL *curl, CURLoption option, long data) {
