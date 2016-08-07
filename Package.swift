@@ -21,7 +21,7 @@ let package = Package(
 	providers: [
 		.Brew("curl --with-openssl --with-nghttp2"),
 		.Apt("libcurl4-openssl-dev")
-	]
+	],
 	pkgConfig: "libcurl"
 
 )
