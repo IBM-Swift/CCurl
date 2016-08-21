@@ -18,10 +18,9 @@ import PackageDescription
 
 let package = Package(
 	name: "CCurl",
+	pkgConfig: "libcurl",
 	providers: [
 		.Brew("curl --with-openssl --with-nghttp2"),
 		.Apt("libcurl4-openssl-dev")
-	],
-	pkgConfig: "libcurl"
-
+	]
 )
