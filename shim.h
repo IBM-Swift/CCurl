@@ -22,30 +22,30 @@
 #define CURL_TRUE  1
 #define CURL_FALSE 0
 
-extern inline CURLcode curlHelperSetOptBool(CURL *curl, CURLoption option, int yesNo) {
+static inline CURLcode curlHelperSetOptBool(CURL *curl, CURLoption option, int yesNo) {
     return curl_easy_setopt(curl, option, yesNo == CURL_TRUE ? 1L : 0L);
 }
 
 // set options list - CURLOPT_HTTPHEADER, CURLOPT_HTTP200ALIASES, CURLOPT_QUOTE, CURLOPT_TELNETOPTIONS, CURLOPT_MAIL_RCPT, etc.
-extern inline CURLcode curlHelperSetOptList(CURL *curl, CURLoption option, struct curl_slist *list) {
+static inline CURLcode curlHelperSetOptList(CURL *curl, CURLoption option, struct curl_slist *list) {
     return curl_easy_setopt(curl, option, list);
 }
 
 __attribute__((deprecated("curlHelperSetOptHeaders has been deprecated please use curlHelperSetOptList(curl, CURLOPT_HTTPHEADER, headers) instead")))
-extern inline CURLcode curlHelperSetOptHeaders(CURL *curl, struct curl_slist *headers) {
+static inline CURLcode curlHelperSetOptHeaders(CURL *curl, struct curl_slist *headers) {
     return curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 }
 
-extern inline CURLcode curlHelperSetOptInt(CURL *curl, CURLoption option, long data) {
+static inline CURLcode curlHelperSetOptInt(CURL *curl, CURLoption option, long data) {
     return curl_easy_setopt(curl, option, data);
 }
 
 // const keyword is used so that Swift strings can be passed
-extern inline CURLcode curlHelperSetOptString(CURL *curl, CURLoption option, const char *data) {
+static inline CURLcode curlHelperSetOptString(CURL *curl, CURLoption option, const char *data) {
     return curl_easy_setopt(curl, option, data);
 }
 
-extern inline CURLcode curlHelperSetOptReadFunc(CURL *curl, void *userData, size_t (*read_cb) (char *buffer, size_t size, size_t nitems, void *userdata)) {
+static inline CURLcode curlHelperSetOptReadFunc(CURL *curl, void *userData, size_t (*read_cb) (char *buffer, size_t size, size_t nitems, void *userdata)) {
     
     CURLcode rc = curl_easy_setopt(curl, CURLOPT_READDATA, userData);
     if  (rc == CURLE_OK) {
@@ -54,7 +54,7 @@ extern inline CURLcode curlHelperSetOptReadFunc(CURL *curl, void *userData, size
     return rc;
 }
 
-extern inline CURLcode curlHelperSetOptWriteFunc(CURL *curl, void *userData, size_t (*write_cb) (char *ptr, size_t size, size_t nmemb, void *userdata)) {
+static inline CURLcode curlHelperSetOptWriteFunc(CURL *curl, void *userData, size_t (*write_cb) (char *ptr, size_t size, size_t nmemb, void *userdata)) {
     
     CURLcode rc = curl_easy_setopt(curl, CURLOPT_HEADER, 1);
     if  (rc == CURLE_OK)  {
@@ -66,12 +66,12 @@ extern inline CURLcode curlHelperSetOptWriteFunc(CURL *curl, void *userData, siz
     return rc;
 }
 
-extern inline CURLcode curlHelperGetInfoCString(CURL *curl, CURLINFO info, char **data) {
+static inline CURLcode curlHelperGetInfoCString(CURL *curl, CURLINFO info, char **data) {
     return curl_easy_getinfo(curl, info, data);
 }
 
 
-extern inline CURLcode curlHelperGetInfoLong(CURL *curl, CURLINFO info, long *data) {
+static inline CURLcode curlHelperGetInfoLong(CURL *curl, CURLINFO info, long *data) {
     return curl_easy_getinfo(curl, info, data);
 }
 
